@@ -1,18 +1,17 @@
 import numpy as np
 class ppMlon:
     def __init__(self, c, a, b):
-        self.c = c.astype(np.float)
-        self.a = a.astype(np.float)
-        self.b = b.astype(np.float)
+        self.c = c.astype(np.float64)
+        self.a = a.astype(np.float64)
+        self.b = b.astype(np.float64)
         self.num_x = self.a.shape[1]
         
     def init_table(self):
-        self.anCoBan = np.arange(self.num_x, self.num_x + len(self.b)).astype(np.float)
-        self.heSo = np.ones((len(self.b),), dtype = np.float) * 1000
+        self.anCoBan = np.arange(self.num_x, self.num_x + len(self.b)).astype(np.float64)
+        self.heSo = np.ones((len(self.b),), dtype = np.float64) * 1000
         self.z = np.zeros(self.c.shape)
         for i in range(self.num_x):
             self.z[i] = np.sum(self.heSo * self.a[:,i]) - self.c[i]
-            print(i)
     
     def best(self):
         return all(self.z <= 0)
@@ -27,7 +26,7 @@ class ppMlon:
         # find in
         index_in = np.argmax(self.z)
         # find out
-        self.lamda = self.b / self.a[:,index_in]
+        self.lamda = self.b/self.a[:,index_in]
         self.lamda = np.where(self.lamda <= 0, np.inf, self.lamda)
         index_out = np.argmin(self.lamda)
         # change out -> in
@@ -62,12 +61,12 @@ class ppMlon:
                 self.nextTable()
                 
 if __name__ == "__main__":
-    c = np.array([3,-3,1,-1])
+    c = np.array([2,3,-1,-1,0,0])
     a = np.array([
-        [-1,1,2,1],
-        [1,1,-1,-1],
-        [3,2,-6,3]
+        [1,-1,1,1/2,0,0],
+        [0,1,-4,8,1,-0],
+        [0,-2,2,3,0,1]
     ])
-    b = np.array([2,6,9])
+    b = np.array([10,8,20])
     sm = ppMlon(c,a,b)
     sm.run()
