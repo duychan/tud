@@ -1,33 +1,30 @@
 import numpy as np
 import math
-import sys
 
+# kiểm tra ma trận đối xứng
 def is_symmetric_matrix(A):
     n = len(A)
-    for i in range(0, n):
-        for j in range(0, n):
-            if A[i, j] != A[j, i]:
-                return False
+    for i in range(n):
+        for j in range(n):
+                print(A[i][j])
     return True
 
-
+# kiểm tra ma trận xác định dương
 def is_positive_definite_matrix(V):
     for x in V:
         if x <= 0:
             return False
     return True
 
-
+# thực hiện kiểm tra
 def matrix_can_use_cholesky(A):
     m, n = np.shape(A)
-    if m != n:
+    if m != n: # kiểm tra ma trận vuông
         print(">> Ma tran A khong vuong !")
         return False
-
-    if not is_symmetric_matrix(A):
+    if is_symmetric_matrix(A) is False:
         print(">> Ma tran A khong doi xung !")
         return False
-
     V = np.linalg.eigvals(A)
     print(">> V : \n", V)
     if not is_positive_definite_matrix(V):
@@ -35,6 +32,7 @@ def matrix_can_use_cholesky(A):
         return False
     return True
 
+# phân rã ma trận
 def Cholesky_Decomposition(matrix):
     matrix = np.array(matrix,float)
     L = np.zeros_like(matrix)
@@ -66,7 +64,7 @@ V = np.linalg.eigvals(A);
 print('--------Matrix V---------\n' + str(V) +'\n');
 
 if matrix_can_use_cholesky(A):
-    Cholesky_Decomposition(A);
+    Cholesky_Decomposition(A)
 else:
     print("Matrix A cannot use cholesky decomposition")
 
